@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:rest_list/helpers/styling/pallet.dart';
+import 'package:rest_list/screens/home_screen/home_screen.dart';
 import 'package:rest_list/screens/login_screen/login_screen.dart';
 
 void main() {
@@ -19,7 +20,7 @@ class MyApp extends StatelessWidget {
         scaffoldBackgroundColor: Pallet.background,
         fontFamily: 'Lato',
       ),
-      home: const LoginScreen(),
+      home: const HomeScreen(),
     );
   }
 }

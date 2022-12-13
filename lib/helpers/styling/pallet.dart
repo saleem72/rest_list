@@ -7,6 +7,8 @@ class Pallet {
 
   static final primarySwatch = primary.toMaterialColor();
   static const background = Color(0xFFEFEFEF);
+  static const darkAppBar = Color(0xFF02030A);
+  static const meduimDarkText = Color(0xFF5D5D5D);
 }
 
 extension _Material on Color {
