@@ -1,31 +1,61 @@
 //
 
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rest_list/helpers/styling/assets.dart';
 import 'package:rest_list/helpers/styling/pallet.dart';
-import 'package:rest_list/screens/home_screen/pages/home_settings_page.dart';
+import 'package:rest_list/screens/core/home_screen/pages/home_settings_page.dart';
+import 'package:rest_list/screens/core/home_screen/repository/dashboard_repository.dart';
+import 'package:rest_list/screens/core/home_screen/service/dashboard_service.dart';
+import 'package:rest_list/widgets/loading_view.dart';
 
+import '../../../dependancy_injection.dart' as di;
+import 'dashboard_bloc/dashboard_bloc.dart';
 import 'pages.dart';
 
-class HomeScreen extends StatefulWidget {
-  const HomeScreen({Key? key}) : super(key: key);
+class HomeScreen extends StatelessWidget {
+  const HomeScreen({super.key});
 
   @override
-  State<HomeScreen> createState() => _HomeScreenState();
+  Widget build(BuildContext context) {
+    return BlocProvider(
+      create: (context) => DashboardBloc(
+        repository: DashboardRepositoryMock(
+          service: DashboardServiceMock(safe: di.locator()),
+        ),
+      )..add(DashboardGetData()),
+      child: const HomeScreenContent(),
+    );
+  }
 }
 
-class _HomeScreenState extends State<HomeScreen> {
+class HomeScreenContent extends StatefulWidget {
+  const HomeScreenContent({Key? key}) : super(key: key);
+
+  @override
+  State<HomeScreenContent> createState() => _HomeScreenContentState();
+}
+
+class _HomeScreenContentState extends State<HomeScreenContent> {
   int _selectedPage = 0;
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: const Color(0xFFEFEFEF),
-      body: Column(
-        children: [
-          _header(context),
-          if (_selectedPage == 0) const Expanded(child: HomeMenuPage()),
-          if (_selectedPage == 1) const Expanded(child: HomeSettingsPage()),
-        ],
+    return BlocBuilder<DashboardBloc, DashboardState>(
+      builder: (context, state) => Scaffold(
+        backgroundColor: const Color(0xFFEFEFEF),
+        body: Stack(
+          children: [
+            Column(
+              children: [
+                _header(context),
+                if (_selectedPage == 0) const Expanded(child: HomeMenuPage()),
+                if (_selectedPage == 1)
+                  const Expanded(child: HomeSettingsPage()),
+              ],
+            ),
+            LoadingView(isVisible: (state is DashboardLoading) ? true : false)
+          ],
+        ),
       ),
     );
   }

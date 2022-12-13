@@ -1,6 +1,7 @@
 //
 
 import 'package:flutter/material.dart';
+import 'package:rest_list/helpers/localization/language_constants.dart';
 import 'package:rest_list/helpers/styling/assets.dart';
 
 class HomeMenuPage extends StatelessWidget {
@@ -15,7 +16,7 @@ class HomeMenuPage extends StatelessWidget {
           Row(
             children: [
               Text(
-                'Menu',
+                Translator.translation(context).menu,
                 style: Theme.of(context).textTheme.headline6,
               ),
               const SizedBox(width: 8),
