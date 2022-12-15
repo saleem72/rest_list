@@ -3,6 +3,7 @@
 
 import 'package:dartz/dartz.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:rest_list/screens/auth/login_screen/models/login_response/paginate.dart';
 
 import '../../../../../models/failure.dart';
 import 'permissions.dart';
@@ -17,7 +18,7 @@ class BaseService {
     if (reponse.data != null) {
       return Right(reponse.data as T);
     } else {
-      return Left(Failure(message: reponse.message));
+      return Left(Failure(message: reponse.message ?? 'Unknown error'));
     }
   }
 }
@@ -25,14 +26,14 @@ class BaseService {
 abstract class ApiReponse<T> {
   T? data;
   bool status;
-  String message;
+  String? message;
   int code;
-  String? paginate;
+  Paginate? paginate;
   String? whatsappMessage;
   ApiReponse({
     this.data,
     required this.status,
-    required this.message,
+    this.message,
     required this.code,
     this.paginate,
     this.whatsappMessage,
@@ -56,13 +57,13 @@ class LoginResponse implements ApiReponse<LoginData> {
   bool status;
 
   @override
-  String message;
+  String? message;
 
   @override
   int code;
 
   @override
-  String? paginate;
+  Paginate? paginate;
 
   @override
   String? whatsappMessage;
@@ -74,7 +75,8 @@ class LoginResponse implements ApiReponse<LoginData> {
       status: json["status"],
       message: json["message"],
       code: json["code"],
-      paginate: json["paginate"],
+      paginate:
+          json["paginate"] != null ? Paginate.fromJson(json["paginate"]) : null,
       whatsappMessage: json["whatsapp_message"],
     );
   }

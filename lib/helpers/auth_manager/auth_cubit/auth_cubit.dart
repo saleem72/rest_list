@@ -25,4 +25,9 @@ class AuthCubit extends Cubit<AuthState> {
     safe.setToken(data.token);
     emit(const AuthState(target: AuthStatus.home));
   }
+
+  logout() {
+    safe.setToken('');
+    emit(const AuthState(target: AuthStatus.login));
+  }
 }

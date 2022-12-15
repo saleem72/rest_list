@@ -2,30 +2,41 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:rest_list/helpers/styling/assets.dart';
-import 'package:rest_list/helpers/styling/pallet.dart';
-import 'package:rest_list/screens/core/home_screen/pages/home_settings_page.dart';
-import 'package:rest_list/screens/core/home_screen/repository/dashboard_repository.dart';
-import 'package:rest_list/screens/core/home_screen/service/dashboard_service.dart';
-import 'package:rest_list/widgets/loading_view.dart';
 
-import '../../../dependancy_injection.dart' as di;
+import '../../../helpers/auth_manager/auth_cubit/auth_cubit.dart';
+import '../../../helpers/constants.dart';
+import '../../../helpers/styling/styling.dart';
+import '../../../widgets/main_widgets.dart';
+import '../../auth/login_screen/models/login_response/resturant.dart';
 import 'dashboard_bloc/dashboard_bloc.dart';
+import 'home_widgets.dart';
 import 'pages.dart';
+import 'pages/home_settings_page.dart';
+import 'repository/dashboard_repository.dart';
+import 'service/dashboard_service_impl.dart';
+import 'service/dashboard_service_mock.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => DashboardBloc(
-        repository: DashboardRepositoryMock(
-          service: DashboardServiceMock(safe: di.locator()),
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(
+          create: (context) => DashboardBloc(
+            repository: DashboardRepositoryMock(
+              service: Constants.isDebuging
+                  ? DashboardServiceMock()
+                  : DashboardServiceImpl(),
+            ),
+          )..add(DashboardGetData()),
         ),
-      )..add(DashboardGetData()),
+      ],
       child: const HomeScreenContent(),
     );
+
+    //  child: const HomeScreenContent(),
   }
 }
 
@@ -42,7 +53,7 @@ class _HomeScreenContentState extends State<HomeScreenContent> {
   Widget build(BuildContext context) {
     return BlocBuilder<DashboardBloc, DashboardState>(
       builder: (context, state) => Scaffold(
-        backgroundColor: const Color(0xFFEFEFEF),
+        backgroundColor: Pallet.background,
         body: Stack(
           children: [
             Column(
@@ -53,7 +64,8 @@ class _HomeScreenContentState extends State<HomeScreenContent> {
                   const Expanded(child: HomeSettingsPage()),
               ],
             ),
-            LoadingView(isVisible: (state is DashboardLoading) ? true : false)
+            LoadingView(isVisible: state.isLoading),
+            const HomeFailureView(),
           ],
         ),
       ),
@@ -81,44 +93,144 @@ class _HomeScreenContentState extends State<HomeScreenContent> {
           const SizedBox(width: 60),
           Row(
             children: [
-              IconButton(onPressed: () {}, icon: Image.asset(Assets.branchs)),
-              IconButton(onPressed: () {}, icon: Image.asset(Assets.offers)),
-              IconButton(onPressed: () {}, icon: Image.asset(Assets.settings)),
-              IconButton(onPressed: () {}, icon: Image.asset(Assets.qr)),
+              IconButton(
+                onPressed: () => setState(() {
+                  _selectedPage = 0;
+                }),
+                icon: Image.asset(Assets.branchs),
+              ),
+              IconButton(
+                  onPressed: () => setState(() {
+                        _selectedPage = 1;
+                      }),
+                  icon: Image.asset(Assets.offers)),
+              IconButton(
+                  onPressed: () => setState(() {
+                        _selectedPage = 1;
+                      }),
+                  icon: Image.asset(Assets.settings)),
+              IconButton(
+                onPressed: () => _showQR(context),
+                icon: Image.asset(Assets.qr),
+              ),
+              const HomeContextMenu(),
             ],
           ),
           const Spacer(),
-          IconButton(onPressed: () {}, icon: Image.asset(Assets.notifications)),
+          IconButton(
+              onPressed: () {
+                final authCubit = context.read<AuthCubit>();
+                authCubit.logout();
+              },
+              icon: Image.asset(Assets.notifications)),
           const SizedBox(width: 16),
-          Container(
-            width: 24,
-            height: 24,
-            decoration: const BoxDecoration(
-              color: Colors.white,
-              shape: BoxShape.circle,
-            ),
-          ),
-          const SizedBox(width: 16),
-          RichText(
-            text: TextSpan(
-              children: [
-                TextSpan(
-                  text: 'Hello, ',
-                  style: Theme.of(context).textTheme.labelLarge?.copyWith(
-                        color: Pallet.meduimDarkText,
-                      ),
-                ),
-                TextSpan(
-                  text: 'Imad Farra',
-                  style: Theme.of(context).textTheme.labelLarge?.copyWith(
-                        color: Colors.white,
-                      ),
-                ),
-              ],
-            ),
-          ),
+          const ActiveRestaurantHeader(),
         ],
       ),
+    );
+  }
+
+  _showQR(BuildContext context) {
+    final user = context.read<DashboardBloc>().state.user;
+    if (user != null) {
+      print(user.fullName);
+    }
+  }
+}
+
+class HomeContextMenu extends StatelessWidget {
+  const HomeContextMenu({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocBuilder<DashboardBloc, DashboardState>(
+      builder: (context, state) {
+        if (state.user != null && state.user!.restaurants.isNotEmpty) {
+          return _moreMenu(context, state.user!.restaurants);
+        } else {
+          return const SizedBox.shrink();
+        }
+      },
+    );
+  }
+
+  PopupMenuButton<Restaurant> _moreMenu(
+      BuildContext context, List<Restaurant> restaurants) {
+    return PopupMenuButton(
+      icon: Icon(
+        Icons.search,
+        color: Theme.of(context).primaryColor,
+      ),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(12),
+      ),
+      offset: const Offset(0, kToolbarHeight),
+      onSelected: (item) {
+        context
+            .read<DashboardBloc>()
+            .add(DashboardSetActiveRestaurant(restaurant: item));
+      },
+      itemBuilder: (context) => restaurants
+          .map((e) => PopupMenuItem(
+              value: e,
+              child: PopupMenuItemCard(
+                restaurant: e,
+              )))
+          .toList(),
+    );
+  }
+}
+
+class PopupMenuItemCard extends StatelessWidget {
+  const PopupMenuItemCard({
+    super.key,
+    required this.restaurant,
+  });
+  final Restaurant restaurant;
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      children: [
+        SizedBox(
+          width: 24,
+          height: 24,
+          child: restaurant.image.isNotEmpty
+              ? CircleAvatar(
+                  backgroundImage: NetworkImage(restaurant.image),
+                )
+              : Container(
+                  decoration: BoxDecoration(
+                      color: Theme.of(context).primaryColor,
+                      shape: BoxShape.circle),
+                  padding: const EdgeInsets.all(6),
+                  child: Image.asset(Assets.generalLogo),
+                ),
+        ),
+        const SizedBox(width: 8),
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              restaurant.name,
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+              style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                    fontWeight: FontWeight.w600,
+                    color: Colors.black,
+                  ),
+            ),
+            Text(
+              restaurant.address,
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+              style: Theme.of(context)
+                  .textTheme
+                  .bodySmall
+                  ?.copyWith(color: Colors.grey.shade400),
+            ),
+          ],
+        ),
+      ],
     );
   }
 }

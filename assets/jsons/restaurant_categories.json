@@ -1,0 +1,244 @@
+{
+    "data": [
+        {
+            "id": 185,
+            "name": "مشروبات",
+            "is_active": 1,
+            "sort": 0,
+            "parent_id": null,
+            "restaurant_id": 18,
+            "subcategories": [
+                {
+                    "id": 197,
+                    "name": "Juice",
+                    "is_active": 1,
+                    "sort": 0,
+                    "parent_id": 185,
+                    "restaurant_id": 18
+                },
+                {
+                    "id": 195,
+                    "name": "Hot Drinks",
+                    "is_active": 1,
+                    "sort": 1,
+                    "parent_id": 185,
+                    "restaurant_id": 18
+                },
+                {
+                    "id": 192,
+                    "name": "Cold Drinks",
+                    "is_active": 1,
+                    "sort": 1,
+                    "parent_id": 185,
+                    "restaurant_id": 18
+                }
+            ]
+        },
+        {
+            "id": 184,
+            "name": "Dishes",
+            "is_active": 1,
+            "sort": 1,
+            "parent_id": null,
+            "restaurant_id": 18,
+            "subcategories": [
+                {
+                    "id": 190,
+                    "name": "Burger",
+                    "is_active": 1,
+                    "sort": 0,
+                    "parent_id": 184,
+                    "restaurant_id": 18
+                },
+                {
+                    "id": 189,
+                    "name": "Pasta",
+                    "is_active": 1,
+                    "sort": 1,
+                    "parent_id": 184,
+                    "restaurant_id": 18
+                },
+                {
+                    "id": 191,
+                    "name": "Pizza",
+                    "is_active": 1,
+                    "sort": 1,
+                    "parent_id": 184,
+                    "restaurant_id": 18
+                }
+            ]
+        },
+        {
+            "id": 187,
+            "name": "Desserts",
+            "is_active": 1,
+            "sort": 2,
+            "parent_id": null,
+            "restaurant_id": 18,
+            "subcategories": [
+                {
+                    "id": 200,
+                    "name": "Biscuits",
+                    "is_active": 1,
+                    "sort": 1,
+                    "parent_id": 187,
+                    "restaurant_id": 18
+                },
+                {
+                    "id": 199,
+                    "name": "Cakes",
+                    "is_active": 1,
+                    "sort": 1,
+                    "parent_id": 187,
+                    "restaurant_id": 18
+                }
+            ]
+        },
+        {
+            "id": 270,
+            "name": "Ramadan op1",
+            "is_active": 1,
+            "sort": 3,
+            "parent_id": null,
+            "restaurant_id": 18,
+            "subcategories": [
+                {
+                    "id": 615,
+                    "name": "sub 005",
+                    "is_active": 1,
+                    "sort": 1,
+                    "parent_id": 270,
+                    "restaurant_id": 18
+                },
+                {
+                    "id": 614,
+                    "name": "sub 004",
+                    "is_active": 1,
+                    "sort": 1,
+                    "parent_id": 270,
+                    "restaurant_id": 18
+                },
+                {
+                    "id": 613,
+                    "name": "sub 003",
+                    "is_active": 1,
+                    "sort": 1,
+                    "parent_id": 270,
+                    "restaurant_id": 18
+                },
+                {
+                    "id": 612,
+                    "name": "sub 002",
+                    "is_active": 1,
+                    "sort": 1,
+                    "parent_id": 270,
+                    "restaurant_id": 18
+                },
+                {
+                    "id": 611,
+                    "name": "sub 001",
+                    "is_active": 1,
+                    "sort": 1,
+                    "parent_id": 270,
+                    "restaurant_id": 18
+                },
+                {
+                    "id": 279,
+                    "name": "Side dishes",
+                    "is_active": 1,
+                    "sort": 1,
+                    "parent_id": 270,
+                    "restaurant_id": 18
+                },
+                {
+                    "id": 278,
+                    "name": "Ramadan juices",
+                    "is_active": 1,
+                    "sort": 1,
+                    "parent_id": 270,
+                    "restaurant_id": 18
+                },
+                {
+                    "id": 277,
+                    "name": "Desserts",
+                    "is_active": 1,
+                    "sort": 1,
+                    "parent_id": 270,
+                    "restaurant_id": 18
+                },
+                {
+                    "id": 271,
+                    "name": "Main Meals",
+                    "is_active": 1,
+                    "sort": 1,
+                    "parent_id": 270,
+                    "restaurant_id": 18
+                }
+            ]
+        },
+        {
+            "id": 274,
+            "name": "Ramadan op2",
+            "is_active": 1,
+            "sort": 4,
+            "parent_id": null,
+            "restaurant_id": 18,
+            "subcategories": [
+                {
+                    "id": 283,
+                    "name": "Desserts",
+                    "is_active": 1,
+                    "sort": 1,
+                    "parent_id": 274,
+                    "restaurant_id": 18
+                },
+                {
+                    "id": 276,
+                    "name": "Children",
+                    "is_active": 1,
+                    "sort": 1,
+                    "parent_id": 274,
+                    "restaurant_id": 18
+                },
+                {
+                    "id": 275,
+                    "name": "Grownups",
+                    "is_active": 1,
+                    "sort": 1,
+                    "parent_id": 274,
+                    "restaurant_id": 18
+                }
+            ]
+        },
+        {
+            "id": 186,
+            "name": "Salads",
+            "is_active": 1,
+            "sort": 5,
+            "parent_id": null,
+            "restaurant_id": 18,
+            "subcategories": [
+                {
+                    "id": 198,
+                    "name": "All Salads",
+                    "is_active": 1,
+                    "sort": 1,
+                    "parent_id": 186,
+                    "restaurant_id": 18
+                }
+            ]
+        }
+    ],
+    "status": true,
+    "message": null,
+    "code": 200,
+    "paginate": {
+        "currentPage": 1,
+        "from": 1,
+        "to": 6,
+        "total": 6,
+        "total_pages": 1,
+        "per_page": 10
+    },
+    "whatsapp_message": null
+}

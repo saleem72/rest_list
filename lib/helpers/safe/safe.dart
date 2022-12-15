@@ -93,7 +93,7 @@ class Safe {
 
   bool isAuthorized() {
     final token = _storage.getString(SafeKeys.token);
-    return token != null;
+    return (token != null) && (token.isNotEmpty);
   }
 
   AuthStatus getAuthStatus() {

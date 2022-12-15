@@ -20,4 +20,5 @@ class Assets {
   static const coloredLeftArrow = '${_imagesPath}colored_left_arrow.png';
   static const coloredRightArrow = '${_imagesPath}colored_right_arrow.png';
   static const dish = '${_imagesPath}dish.jpg';
+  static const generalLogo = '${_imagesPath}general_logo.png';
 }
