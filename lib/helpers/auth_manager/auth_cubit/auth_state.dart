@@ -6,5 +6,5 @@ class AuthState extends Equatable {
   });
   final AuthStatus target;
   @override
-  List<Object> get props => [];
+  List<Object> get props => [target];
 }

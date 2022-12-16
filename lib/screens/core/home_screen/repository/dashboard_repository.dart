@@ -1,36 +1,44 @@
 //
 
 import 'package:dartz/dartz.dart';
-import 'package:rest_list/screens/auth/login_screen/models/login_response/user.dart';
+import 'package:rest_list/models/app_user/app_user.dart';
 import 'package:rest_list/screens/core/home_screen/service/dashboard_service.dart';
 
 import '../../../../models/failure.dart';
-import '../../../auth/login_screen/models/login_response/categories_response.dart';
-import '../../../auth/login_screen/models/login_response/get_product_entries.dart';
-import '../../../auth/login_screen/models/login_response/product.dart';
+import '../models/categories_response.dart';
+import '../../../../models/requests_bodies/get_product_body.dart';
+import '../../../../models/product.dart';
 
 abstract class DashboardRepository {
   DashboardService get service;
-  LoginUser? get data;
+  AppUser? get data;
 
-  Future<Either<Failure, LoginUser>> getData();
+  Future<Either<Failure, AppUser>> getData();
   Future<Either<Failure, CategoriesList>> getCategories(int restaurantId);
-  Future<Either<Failure, ProductsList>> getProduct(GetProductEntries model);
+  Future<Either<Failure, ProductsList>> getProduct(GetProductBody model);
+  setUser(AppUser user);
 }
 
-class DashboardRepositoryMock implements DashboardRepository {
-  DashboardRepositoryMock({required this.service});
+class DashboardRepositoryImpl implements DashboardRepository {
+  DashboardRepositoryImpl({required this.service});
 
   @override
-  LoginUser? data;
+  AppUser? data;
   @override
   final DashboardService service;
 
   Failure? failure;
   bool isGettingData = false;
   bool dataHasBeenFetched = false;
+
   @override
-  Future<Either<Failure, LoginUser>> getData() async {
+  setUser(AppUser user) {
+    data = user;
+    dataHasBeenFetched = true;
+  }
+
+  @override
+  Future<Either<Failure, AppUser>> getData() async {
     if (!dataHasBeenFetched) {
       isGettingData = true;
       final result = await service.getData();
@@ -48,7 +56,7 @@ class DashboardRepositoryMock implements DashboardRepository {
     }
   }
 
-  _handleReturnedData(LoginUser returnedData) {
+  _handleReturnedData(AppUser returnedData) {
     data = returnedData;
     dataHasBeenFetched = true;
     isGettingData = false;
@@ -61,12 +69,12 @@ class DashboardRepositoryMock implements DashboardRepository {
   @override
   Future<Either<Failure, CategoriesList>> getCategories(
       int restaurantId) async {
-    final result = service.getCategories('', restaurantId);
+    final result = service.getCategories(restaurantId);
     return result;
   }
 
   @override
-  Future<Either<Failure, ProductsList>> getProduct(GetProductEntries model) {
+  Future<Either<Failure, ProductsList>> getProduct(GetProductBody model) {
     final result = service.getProduct(model);
     return result;
   }

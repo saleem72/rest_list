@@ -7,7 +7,7 @@ import '../../../helpers/auth_manager/auth_cubit/auth_cubit.dart';
 import '../../../helpers/constants.dart';
 import '../../../helpers/styling/styling.dart';
 import '../../../widgets/main_widgets.dart';
-import '../../auth/login_screen/models/login_response/resturant.dart';
+import '../../../models/restaurant/restaurant.dart';
 import 'dashboard_bloc/dashboard_bloc.dart';
 import 'home_widgets.dart';
 import 'pages.dart';
@@ -21,20 +21,7 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MultiBlocProvider(
-      providers: [
-        BlocProvider(
-          create: (context) => DashboardBloc(
-            repository: DashboardRepositoryMock(
-              service: Constants.isDebuging
-                  ? DashboardServiceMock()
-                  : DashboardServiceImpl(),
-            ),
-          )..add(DashboardGetData()),
-        ),
-      ],
-      child: const HomeScreenContent(),
-    );
+    return const HomeScreenContent();
 
     //  child: const HomeScreenContent(),
   }
@@ -49,6 +36,16 @@ class HomeScreenContent extends StatefulWidget {
 
 class _HomeScreenContentState extends State<HomeScreenContent> {
   int _selectedPage = 0;
+  @override
+  void initState() {
+    super.initState();
+    _getData();
+  }
+
+  _getData() {
+    context.read<DashboardBloc>().add(DashboardGetData());
+  }
+
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<DashboardBloc, DashboardState>(
@@ -133,7 +130,7 @@ class _HomeScreenContentState extends State<HomeScreenContent> {
   _showQR(BuildContext context) {
     final user = context.read<DashboardBloc>().state.user;
     if (user != null) {
-      print(user.fullName);
+      debugPrint(user.fullName);
     }
   }
 }

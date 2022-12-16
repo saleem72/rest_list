@@ -2,13 +2,13 @@
 
 import 'dart:convert';
 
-import 'login_response.dart';
-import 'paginate.dart';
-import 'user.dart';
+import '../../../../models/apis_related/api_reponse.dart';
+import '../../../../models/apis_related/paginate.dart';
+import '../../../../models/app_user/app_user.dart';
 
-class GetUserResponse implements ApiReponse<LoginUser> {
+class GetUserResponse implements ApiReponse<AppUser> {
   @override
-  LoginUser? data;
+  AppUser? data;
 
   @override
   int code;
@@ -47,7 +47,7 @@ class GetUserResponse implements ApiReponse<LoginUser> {
   factory GetUserResponse.fromMap(Map<String, dynamic> map) {
     return GetUserResponse(
       data: map['data'] != null
-          ? LoginUser.fromJson(map['data'] as Map<String, dynamic>)
+          ? AppUser.fromJson(map['data'] as Map<String, dynamic>)
           : null,
       code: map['code'] as int,
       message: map['message'] as String?,

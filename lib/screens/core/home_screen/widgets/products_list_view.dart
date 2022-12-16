@@ -2,12 +2,12 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:intl/intl.dart';
 import 'package:shimmer/shimmer.dart';
 
 import '../../../../helpers/styling/styling.dart';
-import '../../../auth/login_screen/models/login_response/product.dart';
+import '../../../../models/product.dart';
 import '../dashboard_bloc/dashboard_bloc.dart';
+import 'product_card.dart';
 
 class ProductsListView extends StatelessWidget {
   const ProductsListView({super.key});
@@ -17,13 +17,14 @@ class ProductsListView extends StatelessWidget {
     return BlocBuilder<DashboardBloc, DashboardState>(
       builder: (context, state) {
         return state.products.isNotEmpty
-            ? _productsList(context, state.products)
+            ? _productsList(context, state.products, state.activeProduct)
             : _placeHolder(context);
       },
     );
   }
 
-  Expanded _productsList(BuildContext context, List<Product> products) {
+  Expanded _productsList(
+      BuildContext context, List<Product> products, Product? activeProduct) {
     return Expanded(
       child: GridView.builder(
           padding: const EdgeInsets.only(),
@@ -36,7 +37,11 @@ class ProductsListView extends StatelessWidget {
             if (index == 0) {
               return _addNewDish(context);
             } else {
-              return DishCard(product: products[index - 1]);
+              final product = products[index - 1];
+              return ProductCard(
+                product: product,
+                isActive: product.id == activeProduct?.id,
+              );
             }
           }),
     );
@@ -64,27 +69,31 @@ class ProductsListView extends StatelessWidget {
   Widget _addNewDish(BuildContext context) {
     return AspectRatio(
       aspectRatio: 1,
-      child: Container(
-        margin: const EdgeInsets.all(8),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Expanded(
-              child: _addNewDishBG(),
-            ),
-            const SizedBox(height: 8),
-            Text(
-              'Add new dish',
-              style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                    fontWeight: FontWeight.w600,
-                  ),
-            ),
-            const SizedBox(height: 4),
-            Text(
-              'Fill details',
-              style: Theme.of(context).textTheme.caption,
-            ),
-          ],
+      child: GestureDetector(
+        onTap: () =>
+            context.read<DashboardBloc>().add(DashboardClearActiveProduct()),
+        child: Container(
+          margin: const EdgeInsets.all(8),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Expanded(
+                child: _addNewDishBG(),
+              ),
+              const SizedBox(height: 8),
+              Text(
+                'Add new dish',
+                style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                      fontWeight: FontWeight.w600,
+                    ),
+              ),
+              const SizedBox(height: 4),
+              Text(
+                'Fill details',
+                style: Theme.of(context).textTheme.caption,
+              ),
+            ],
+          ),
         ),
       ),
     );
@@ -180,71 +189,6 @@ class ProductsListView extends StatelessWidget {
           ),
         ),
       ),
-    );
-  }
-}
-
-class DishCard extends StatelessWidget {
-  const DishCard({
-    super.key,
-    required this.product,
-  });
-  final Product product;
-
-  @override
-  Widget build(BuildContext context) {
-    final formatter = NumberFormat('#,##0.## SYP');
-    return GestureDetector(
-      onTap: () => context
-          .read<DashboardBloc>()
-          .add(DashboardSetActiveProduct(product: product)),
-      child: AspectRatio(
-        aspectRatio: 1,
-        child: Container(
-          margin: const EdgeInsets.all(8),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Expanded(
-                child: _dishBG(),
-              ),
-              const SizedBox(height: 8),
-              Text(
-                product.name,
-                style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                      fontWeight: FontWeight.w600,
-                    ),
-              ),
-              const SizedBox(height: 4),
-              Text(
-                formatter.format(product.price),
-                style: Theme.of(context).textTheme.caption?.copyWith(
-                      color: Theme.of(context).primaryColor,
-                    ),
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-
-  Widget _dishBG() {
-    return ClipRRect(
-      borderRadius: BorderRadius.circular(6.0),
-      // child: product.image == null ? Image.asset(Assets.dish) :
-      // NetworkImage(product.image!),
-      child: product.image != null
-          ? Image.network(
-              product.image!,
-              fit: BoxFit.cover,
-            )
-          : product.sliderImage != null
-              ? Image.network(
-                  product.image!,
-                  fit: BoxFit.cover,
-                )
-              : Image.asset(Assets.dish),
     );
   }
 }

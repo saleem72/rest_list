@@ -2,8 +2,6 @@
 
 import 'package:flutter/material.dart';
 
-import '../styling/styling.dart';
-
 class RoutingErrorScreen extends StatelessWidget {
   const RoutingErrorScreen({
     Key? key,

@@ -1,32 +1,28 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 //
 
-import 'dart:convert';
-
 import 'package:dartz/dartz.dart';
-import 'package:rest_list/screens/auth/login_screen/models/get_product_response.dart';
-
-import 'package:rest_list/screens/auth/login_screen/models/login_response/categories_response.dart';
-import 'package:rest_list/screens/auth/login_screen/models/login_response/get_product_entries.dart';
-import 'package:rest_list/screens/auth/login_screen/models/login_response/user.dart';
-import 'package:rest_list/screens/auth/login_screen/models/login_response/product.dart';
 
 import '../../../../helpers/jsons.dart';
-import '../../../../helpers/safe/safe.dart';
+import '../../../../models/app_user/app_user.dart';
 import '../../../../models/failure.dart';
-import '../../../auth/login_screen/models/login_response/get_user_response.dart';
-import '../../../auth/login_screen/models/login_response/login_response.dart';
+import '../../../../models/apis_related/base_service.dart';
+import '../../../../models/product.dart';
+import '../../../../models/requests_bodies/get_product_body.dart';
+import '../models/categories_response.dart';
+import '../models/get_product_response.dart';
+import '../models/get_user_response.dart';
 import 'dashboard_service.dart';
 
 class DashboardServiceMock implements DashboardService {
   @override
-  Future<Either<Failure, LoginUser>> getData() async {
+  Future<Either<Failure, AppUser>> getData() async {
     await Future<void>.delayed(const Duration(seconds: 1));
     try {
       final jsonResponse = await JsonApiResponse.loadJsonData(
           JsonApiResponse.getUserSuccessResponse);
       final loginResponse = GetUserResponse.fromMap(jsonResponse);
-      final result = BaseService.handleResponse<LoginUser>(loginResponse);
+      final result = BaseService.handleResponse<AppUser>(loginResponse);
       return result;
     } catch (ex) {
       return left(Failure(message: ex.toString()));
@@ -35,7 +31,7 @@ class DashboardServiceMock implements DashboardService {
 
   @override
   Future<Either<Failure, CategoriesList>> getCategories(
-      String token, int restaurantId) async {
+      int restaurantId) async {
     await Future<void>.delayed(const Duration(seconds: 1));
     try {
       final jsonResponse = await JsonApiResponse.loadJsonData(
@@ -48,8 +44,8 @@ class DashboardServiceMock implements DashboardService {
     }
   }
 
-  Future<Either<Failure, ProductsList>> getProduct(
-      GetProductEntries model) async {
+  @override
+  Future<Either<Failure, ProductsList>> getProduct(GetProductBody model) async {
     await Future<void>.delayed(const Duration(seconds: 1));
     try {
       final jsonResponse = await JsonApiResponse.loadJsonData(

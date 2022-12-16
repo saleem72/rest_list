@@ -1,7 +1,7 @@
 //
 
-class ResturantSubscription {
-  ResturantSubscription({
+class UserSubscription {
+  UserSubscription({
     required this.planId,
     required this.currencyId,
     required this.duration,
@@ -43,8 +43,8 @@ class ResturantSubscription {
   bool qrTemplate;
   bool theme;
 
-  factory ResturantSubscription.fromJson(Map<String, dynamic> json) =>
-      ResturantSubscription(
+  factory UserSubscription.fromJson(Map<String, dynamic> json) =>
+      UserSubscription(
         planId: json["plan_id"],
         currencyId: json["currency_id"],
         duration: json["duration"],

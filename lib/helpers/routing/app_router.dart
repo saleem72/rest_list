@@ -2,7 +2,6 @@
 
 import 'package:flutter/material.dart';
 
-import 'nav_links.dart';
 import 'routing_error_screen.dart';
 
 class AppRouter {

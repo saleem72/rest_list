@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:formz/formz.dart';
 import 'package:rest_list/helpers/localization/language_constants.dart';
+import 'package:rest_list/screens/core/home_screen/dashboard_bloc/dashboard_bloc.dart';
 
 import '../../../helpers/auth_manager/auth_cubit/auth_cubit.dart';
 import '../../../helpers/constants.dart';
@@ -21,6 +22,7 @@ class LoginScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) => LoginBloc(
+        dashboardBloc: context.read<DashboardBloc>(),
         authCubit: context.read<AuthCubit>(),
         service: Constants.isDebuging ? LoginServiceMock() : LoginServiceImpl(),
       ),

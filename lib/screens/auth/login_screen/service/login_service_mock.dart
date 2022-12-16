@@ -4,7 +4,9 @@ import 'package:dartz/dartz.dart';
 
 import '../../../../helpers/jsons.dart';
 import '../../../../models/failure.dart';
-import '../models/login_response/login_response.dart';
+import '../../../../models/apis_related/base_service.dart';
+import '../models/login_data.dart';
+import '../models/login_response.dart';
 import 'login_service.dart';
 
 class LoginServiceMock implements LoginService {

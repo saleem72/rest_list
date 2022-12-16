@@ -1,16 +1,16 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 //
 
-import 'package:rest_list/screens/auth/login_screen/models/login_response/login_response.dart';
-import 'package:rest_list/screens/auth/login_screen/models/login_response/paginate.dart';
-import 'package:rest_list/screens/auth/login_screen/models/login_response/product.dart';
+import '../../../../models/product.dart';
+import '../../../../models/apis_related/api_reponse.dart';
+import '../../../../models/apis_related/paginate.dart';
 
 class GetProductResponse implements ApiReponse<ProductsList> {
   @override
   int code;
 
   @override
-  List<Product>? data;
+  ProductsList? data;
 
   @override
   String? message;
@@ -47,7 +47,6 @@ class GetProductResponse implements ApiReponse<ProductsList> {
 
   factory GetProductResponse.fromMap(Map<String, dynamic> map) {
     final proList = map['data'];
-    print(proList.runtimeType);
     return GetProductResponse(
       data: proList != null
           ? List<Product>.from(proList.map((x) => Product.fromJson(x)))

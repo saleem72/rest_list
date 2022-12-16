@@ -1,6 +1,9 @@
+//
+
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:formz/formz.dart';
+import 'package:rest_list/screens/core/home_screen/dashboard_bloc/dashboard_bloc.dart';
 
 import '../../../../helpers/auth_manager/auth_cubit/auth_cubit.dart';
 import '../../../../models/failure.dart';
@@ -13,9 +16,14 @@ part 'login_state.dart';
 class LoginBloc extends Bloc<LoginEvent, LoginState> {
   final AuthCubit _authCubit;
   final LoginService _service;
-  LoginBloc({required AuthCubit authCubit, required LoginService service})
-      : _authCubit = authCubit,
+  final DashboardBloc _dashboardBloc;
+  LoginBloc({
+    required AuthCubit authCubit,
+    required LoginService service,
+    required DashboardBloc dashboardBloc,
+  })  : _authCubit = authCubit,
         _service = service,
+        _dashboardBloc = dashboardBloc,
         super(const LoginState()) {
     on<LoginEmailChanged>(_onEmailChanged);
     on<LoginPasswordChanged>(_onPasswordChanged);
@@ -89,6 +97,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
             ));
           },
           (loginResponse) {
+            _dashboardBloc.add(DashboardUserLoggedIn(user: loginResponse.user));
             _authCubit.userLogedIn(loginResponse);
             emit(state.copyWith(status: FormzStatus.submissionSuccess));
           },

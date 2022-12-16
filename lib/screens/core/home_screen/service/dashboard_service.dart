@@ -1,17 +1,15 @@
 //
 
 import 'package:dartz/dartz.dart';
-import 'package:rest_list/helpers/safe/safe.dart';
 
 import '../../../../models/failure.dart';
-import '../../../auth/login_screen/models/login_response/categories_response.dart';
-import '../../../auth/login_screen/models/login_response/get_product_entries.dart';
-import '../../../auth/login_screen/models/login_response/user.dart';
-import '../../../auth/login_screen/models/login_response/product.dart';
+import '../models/categories_response.dart';
+import '../../../../models/requests_bodies/get_product_body.dart';
+import '../../../../models/app_user/app_user.dart';
+import '../../../../models/product.dart';
 
 abstract class DashboardService {
-  Future<Either<Failure, LoginUser>> getData();
-  Future<Either<Failure, CategoriesList>> getCategories(
-      String token, int restaurantId);
-  Future<Either<Failure, ProductsList>> getProduct(GetProductEntries model);
+  Future<Either<Failure, AppUser>> getData();
+  Future<Either<Failure, CategoriesList>> getCategories(int restaurantId);
+  Future<Either<Failure, ProductsList>> getProduct(GetProductBody model);
 }

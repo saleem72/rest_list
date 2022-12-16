@@ -1,11 +1,15 @@
 //
 
+import 'package:equatable/equatable.dart';
+import 'package:flutter/material.dart';
+
+import '../app_user/app_user.dart';
 import 'primary_parent.dart';
 import 'social_link.dart';
-import 'user.dart';
 
-class Restaurant {
-  Restaurant({
+@immutable
+class Restaurant extends Equatable {
+  const Restaurant({
     required this.id,
     required this.name,
     required this.description,
@@ -38,36 +42,39 @@ class Restaurant {
     required this.primaryParent,
   });
 
-  int id;
-  String name;
-  String description;
-  String address;
-  int isPrimary;
-  String phone;
-  String lat;
-  String lng;
-  String defaultLanguage;
-  String openingHour;
-  String closingHour;
-  String image;
-  String qr;
-  String qrCode;
-  String qrUrl;
-  String vcard;
-  String myLogo;
-  String brandIcon;
-  String themeColor;
-  int isRead;
-  int socialMediaTemplate;
-  String webViewTemplate;
-  int isActive;
-  int userId;
-  List<SocialLink> socialLinks;
-  LoginUser user;
-  String telegramBotLink;
-  int defaultLanguageId;
-  int defaultCurrencyId;
-  PrimaryParent primaryParent;
+  final int id;
+  final String name;
+  final String description;
+  final String address;
+  final int isPrimary;
+  final String phone;
+  final String lat;
+  final String lng;
+  final String defaultLanguage;
+  final String openingHour;
+  final String closingHour;
+  final String image;
+  final String qr;
+  final String qrCode;
+  final String qrUrl;
+  final String vcard;
+  final String myLogo;
+  final String brandIcon;
+  final String themeColor;
+  final int isRead;
+  final int socialMediaTemplate;
+  final String webViewTemplate;
+  final int isActive;
+  final int userId;
+  final List<SocialLink> socialLinks;
+  final AppUser user;
+  final String telegramBotLink;
+  final int defaultLanguageId;
+  final int defaultCurrencyId;
+  final PrimaryParent primaryParent;
+
+  @override
+  List<Object?> get props => [id];
 
   factory Restaurant.fromJson(Map<String, dynamic> json) => Restaurant(
         id: json["id"],
@@ -96,7 +103,7 @@ class Restaurant {
         userId: json["user_id"],
         socialLinks: List<SocialLink>.from(
             json["social_links"].map((x) => SocialLink.fromJson(x))),
-        user: LoginUser.fromJson(json["user"]),
+        user: AppUser.fromJson(json["user"]),
         telegramBotLink: json["telegram_bot_link"],
         defaultLanguageId: json["default_language_id"],
         defaultCurrencyId: json["default_currency_id"],

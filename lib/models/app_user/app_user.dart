@@ -1,12 +1,17 @@
 //
 
-import 'language.dart';
-import 'resturant.dart';
-import 'resturant_package.dart';
-import 'resturant_subscription.dart';
+import 'package:equatable/equatable.dart';
+import 'package:flutter/material.dart';
 
-class LoginUser {
-  LoginUser({
+import '../restaurant/restaurant.dart';
+import '../restaurant/restaurant_currency.dart';
+import '../restaurant/restaurant_language.dart';
+import '../restaurant/restaurant_package.dart';
+import 'user_subscription.dart';
+
+@immutable
+class AppUser extends Equatable {
+  const AppUser({
     required this.id,
     required this.fullName,
     required this.email,
@@ -26,25 +31,28 @@ class LoginUser {
     required this.packages,
   });
 
-  int id;
-  String fullName;
-  String email;
-  String role;
-  int isActive;
-  DateTime emailVerifiedAt;
-  String plan;
-  ResturantSubscription subscription;
-  dynamic tables;
-  dynamic profileImage;
-  int isNotify;
-  String defaultLanguage;
-  String defaultCurrency;
-  List<Restaurant> restaurants;
-  List<ResturantLanguage> languages;
-  List<ResturantLanguage> currencies;
-  List<ResturantPackage> packages;
+  final int id;
+  final String fullName;
+  final String email;
+  final String role;
+  final int isActive;
+  final DateTime emailVerifiedAt;
+  final String plan;
+  final UserSubscription subscription;
+  final dynamic tables;
+  final dynamic profileImage;
+  final int isNotify;
+  final String defaultLanguage;
+  final String defaultCurrency;
+  final List<Restaurant> restaurants;
+  final List<ResturantLanguage> languages;
+  final List<ResturantCurrency> currencies;
+  final List<ResturantPackage> packages;
 
-  factory LoginUser.fromJson(Map<String, dynamic> json) => LoginUser(
+  @override
+  List<Object?> get props => [id];
+
+  factory AppUser.fromJson(Map<String, dynamic> json) => AppUser(
         id: json["id"],
         fullName: json["full_name"],
         email: json["email"],
@@ -52,7 +60,7 @@ class LoginUser {
         isActive: json["is_active"],
         emailVerifiedAt: DateTime.parse(json["email_verified_at"]),
         plan: json["plan"],
-        subscription: ResturantSubscription.fromJson(json["subscription"]),
+        subscription: UserSubscription.fromJson(json["subscription"]),
         tables: json["tables"],
         profileImage: json["profile_image"],
         isNotify: json["is_notify"],
@@ -66,8 +74,8 @@ class LoginUser {
             json["languages"].map((x) => ResturantLanguage.fromJson(x))),
         currencies: json["currencies"] == null
             ? []
-            : List<ResturantLanguage>.from(
-                json["currencies"].map((x) => ResturantLanguage.fromJson(x))),
+            : List<ResturantCurrency>.from(
+                json["currencies"].map((x) => ResturantCurrency.fromJson(x))),
         packages: json["packages"] == null
             ? []
             : List<ResturantPackage>.from(

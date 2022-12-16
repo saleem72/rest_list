@@ -2,8 +2,6 @@
 
 import 'package:flutter/material.dart';
 
-import '../helpers/app_theme/app_theme.dart';
-
 class AppTextField extends StatefulWidget {
   const AppTextField({
     Key? key,
@@ -59,7 +57,6 @@ class _AppTextFieldState extends State<AppTextField> {
           },
           onEditingComplete: () {
             if (widget.onSubmit != null) {
-              print('textField submitted');
               widget.onSubmit!(widget.controller.text);
             }
           },

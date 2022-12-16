@@ -13,7 +13,7 @@ class DashboardState extends Equatable {
     this.activeProduct,
   });
 
-  final LoginUser? user;
+  final AppUser? user;
   final bool isLoading;
   final Restaurant? activeRestaurant;
   final Failure? failure;
@@ -36,7 +36,7 @@ class DashboardState extends Equatable {
       ];
 
   DashboardState copyWith({
-    LoginUser? user,
+    AppUser? user,
     bool? isLoading,
     Restaurant? activeRestaurant,
     Failure? failure,
@@ -70,6 +70,20 @@ class DashboardState extends Equatable {
       activeSubCatgory: activeSubCatgory,
       products: products,
       activeProduct: activeProduct,
+    );
+  }
+
+  DashboardState clearActiveProduct() {
+    return DashboardState(
+      user: user,
+      isLoading: isLoading,
+      activeRestaurant: activeRestaurant,
+      failure: failure,
+      categories: categories,
+      activeCatgory: activeCatgory,
+      activeSubCatgory: activeSubCatgory,
+      products: products,
+      activeProduct: null,
     );
   }
 }

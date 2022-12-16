@@ -1,7 +1,7 @@
 //
 
-import '../../../../../dependancy_injection.dart' as di;
-import '../../../../../helpers/safe/safe.dart';
+import '../../dependancy_injection.dart' as di;
+import '../../helpers/safe/safe.dart';
 
 class ApisHeaders {
   ApisHeaders._();
@@ -13,6 +13,6 @@ class ApisHeaders {
     "Connection": "keep-alive",
     "Content-Type": "application/json",
     "Accept": "application/json",
-    "Accept-Language": "en"
+    "Accept-Language": safe.getLanguageCode()
   };
 }

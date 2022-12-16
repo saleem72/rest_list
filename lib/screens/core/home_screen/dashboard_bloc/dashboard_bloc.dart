@@ -1,14 +1,14 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:rest_list/models/failure.dart';
-import 'package:rest_list/screens/auth/login_screen/models/login_response/get_product_entries.dart';
-import 'package:rest_list/screens/auth/login_screen/models/login_response/resturant.dart';
+import 'package:rest_list/models/requests_bodies/get_product_body.dart';
 import 'package:rest_list/screens/core/home_screen/repository/dashboard_repository.dart';
 import 'package:collection/collection.dart';
 
-import '../../../auth/login_screen/models/login_response/categories_response.dart';
-import '../../../auth/login_screen/models/login_response/product.dart';
-import '../../../auth/login_screen/models/login_response/user.dart';
+import '../../../../models/product.dart';
+import '../../../../models/product_category.dart';
+import '../../../../models/app_user/app_user.dart';
+import '../../../../models/restaurant/restaurant.dart';
 
 part 'dashboard_event.dart';
 part 'dashboard_state.dart';
@@ -24,22 +24,26 @@ class DashboardBloc extends Bloc<DashboardEvent, DashboardState> {
     on<DashboardGetProductForCategory>(_onGetProductForCategory);
     on<DashboardSetActiveProduct>(_onSetActiveProduct);
     on<DashboardClearError>(_onClearError);
+    on<DashboardClearActiveProduct>(_onClearActiveProduct);
+    on<DashboardUserLoggedIn>(_onUserLoggdIn);
   }
 
   final DashboardRepository repository;
+
+  _onUserLoggdIn(DashboardUserLoggedIn event, Emitter<DashboardState> emit) {}
+
   _onGetData(DashboardGetData event, Emitter<DashboardState> emit) async {
     emit(state.copyWith(isLoading: true));
     final result = await repository.getData();
     result.fold(
       (failure) {
-        print('🈴 error: ${failure.message}');
         emit(state.copyWith(isLoading: false, failure: failure));
       },
       (getUserData) => _handleUserData(emit, getUserData),
     );
   }
 
-  _handleUserData(Emitter<DashboardState> emit, LoginUser user) {
+  _handleUserData(Emitter<DashboardState> emit, AppUser user) {
     if (user.restaurants.isNotEmpty) {
       final primaryRestaurant = user.restaurants
           .firstWhereOrNull((element) => element.isPrimary == 1);
@@ -93,7 +97,7 @@ class DashboardBloc extends Bloc<DashboardEvent, DashboardState> {
 
   _onGetProductForCategory(DashboardGetProductForCategory event,
       Emitter<DashboardState> emit) async {
-    final model = GetProductEntries(
+    final model = GetProductBody(
       restaurantId: event.restaurantId,
       categoryId: event.categoryId,
       page: event.page,
@@ -102,7 +106,6 @@ class DashboardBloc extends Bloc<DashboardEvent, DashboardState> {
     final result = await repository.getProduct(model);
     result.fold(
       (failure) {
-        print('🈴 error: ${failure.message}');
         emit(state.copyWith(failure: failure));
       },
       (data) {
@@ -118,5 +121,10 @@ class DashboardBloc extends Bloc<DashboardEvent, DashboardState> {
 
   _onClearError(DashboardClearError event, Emitter<DashboardState> emit) {
     emit(state.clearError());
+  }
+
+  _onClearActiveProduct(
+      DashboardClearActiveProduct event, Emitter<DashboardState> emit) {
+    emit(state.clearActiveProduct());
   }
 }

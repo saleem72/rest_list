@@ -2,12 +2,12 @@
 
 import 'dart:convert';
 
-class GetProductEntries {
+class GetProductBody {
   final int restaurantId;
   final int categoryId;
   final int page;
   final int perPage;
-  GetProductEntries({
+  GetProductBody({
     required this.restaurantId,
     required this.categoryId,
     required this.page,
@@ -23,8 +23,8 @@ class GetProductEntries {
     };
   }
 
-  factory GetProductEntries.fromMap(Map<String, dynamic> map) {
-    return GetProductEntries(
+  factory GetProductBody.fromMap(Map<String, dynamic> map) {
+    return GetProductBody(
       restaurantId: map['restaurant_id'] as int,
       categoryId: map['category_id'] as int,
       page: map['page'] as int,
@@ -34,6 +34,6 @@ class GetProductEntries {
 
   String toJson() => json.encode(toMap());
 
-  factory GetProductEntries.fromJson(String source) =>
-      GetProductEntries.fromMap(json.decode(source) as Map<String, dynamic>);
+  factory GetProductBody.fromJson(String source) =>
+      GetProductBody.fromMap(json.decode(source) as Map<String, dynamic>);
 }

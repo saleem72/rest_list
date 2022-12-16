@@ -10,6 +10,15 @@ abstract class DashboardEvent extends Equatable {
 
 class DashboardGetData extends DashboardEvent {}
 
+class DashboardUserLoggedIn extends DashboardEvent {
+  final AppUser user;
+
+  const DashboardUserLoggedIn({required this.user});
+
+  @override
+  List<Object> get props => [user];
+}
+
 class DashboardSetActiveRestaurant extends DashboardEvent {
   final Restaurant restaurant;
 
@@ -67,5 +76,7 @@ class DashboardSetActiveProduct extends DashboardEvent {
   @override
   List<Object> get props => [product];
 }
+
+class DashboardClearActiveProduct extends DashboardEvent {}
 
 class DashboardClearError extends DashboardEvent {}

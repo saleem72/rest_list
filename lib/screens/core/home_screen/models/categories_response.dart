@@ -4,8 +4,9 @@
 
 import 'dart:convert';
 
-import 'package:rest_list/screens/auth/login_screen/models/login_response/login_response.dart';
-import 'package:rest_list/screens/auth/login_screen/models/login_response/paginate.dart';
+import '../../../../models/apis_related/api_reponse.dart';
+import '../../../../models/apis_related/paginate.dart';
+import '../../../../models/product_category.dart';
 
 typedef CategoriesList = List<ProductCategory>;
 
@@ -67,55 +68,5 @@ class CategoriesResponse implements ApiReponse<CategoriesList> {
         'paginate': paginate,
         'status': status,
         'whatsappMessage': whatsappMessage,
-      };
-}
-
-class ProductCategory {
-  ProductCategory({
-    required this.id,
-    required this.name,
-    required this.isActive,
-    required this.sort,
-    this.parentId,
-    required this.restaurantId,
-    required this.subcategories,
-  });
-
-  int id;
-  String name;
-  int isActive;
-  int sort;
-  int? parentId;
-  int restaurantId;
-  List<ProductCategory> subcategories;
-
-  @override
-  String toString() => 'Category(name: $name)';
-
-  factory ProductCategory.fromJson(Map<String, dynamic> json) {
-    final subCat = json["subcategories"];
-    return ProductCategory(
-      id: json["id"],
-      name: json["name"] as String? ?? 'Unknown',
-      isActive: json["is_active"],
-      sort: json["sort"],
-      parentId: json["parent_id"],
-      restaurantId: json["restaurant_id"],
-      subcategories: subCat == null
-          ? []
-          : List<ProductCategory>.from(
-              subCat.map((x) => ProductCategory.fromJson(x))),
-    );
-  }
-
-  Map<String, dynamic> toJson() => {
-        "id": id,
-        "name": name,
-        "is_active": isActive,
-        "sort": sort,
-        "parent_id": parentId,
-        "restaurant_id": restaurantId,
-        "subcategories":
-            List<dynamic>.from(subcategories.map((x) => x.toJson())),
       };
 }

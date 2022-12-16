@@ -4,7 +4,6 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 
-import '../helpers/utils.dart';
 import '../screens/auth/login_screen/models/login_constants.dart';
 import 'app_logo.dart';
 import 'corner_circle.dart';

@@ -4,16 +4,14 @@
 //
 //     final product = productFromJson(jsonString);
 
-import 'dart:convert';
-
-Product productFromJson(String str) => Product.fromJson(json.decode(str));
-
-String productToJson(Product data) => json.encode(data.toJson());
+import 'package:equatable/equatable.dart';
+import 'package:flutter/material.dart';
 
 typedef ProductsList = List<Product>;
 
-class Product {
-  Product({
+@immutable
+class Product extends Equatable {
+  const Product({
     required this.id,
     required this.name,
     this.description,
@@ -31,21 +29,24 @@ class Product {
     this.offerId,
   });
 
-  int id;
-  String name;
-  String? description;
-  String? image;
-  String? sliderImage;
-  String? size;
-  int? expectedTime;
-  double? price;
-  double? discount;
-  int? sort;
-  int? isAvailable;
-  int? categoryId;
-  int? restaurantId;
-  String? offer;
-  String? offerId;
+  final int id;
+  final String name;
+  final String? description;
+  final String? image;
+  final String? sliderImage;
+  final String? size;
+  final int? expectedTime;
+  final double? price;
+  final double? discount;
+  final int? sort;
+  final int? isAvailable;
+  final int? categoryId;
+  final int? restaurantId;
+  final String? offer;
+  final String? offerId;
+
+  @override
+  List<Object?> get props => [id];
 
   @override
   String toString() => 'Product(name: $name)';

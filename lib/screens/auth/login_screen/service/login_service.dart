@@ -3,8 +3,7 @@
 import 'package:dartz/dartz.dart';
 
 import '../../../../models/failure.dart';
-import '../../../../models/user.dart';
-import '../models/login_response/login_response.dart';
+import '../models/login_data.dart';
 
 abstract class LoginService {
   Future<Either<Failure, LoginData>> login(

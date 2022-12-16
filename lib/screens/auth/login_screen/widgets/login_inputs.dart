@@ -1,10 +1,7 @@
 //
 
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 
-import '../../../../helpers/localization/language_constants.dart';
-import '../../../../widgets/main_widgets.dart';
 import 'login_password_section.dart';
 import 'login_email_section.dart';
 

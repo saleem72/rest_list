@@ -2,7 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:rest_list/screens/auth/login_screen/models/login_response/product.dart';
+import 'package:rest_list/models/product.dart';
 
 import '../../../../helpers/styling/styling.dart';
 

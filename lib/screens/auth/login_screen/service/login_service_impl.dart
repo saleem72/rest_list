@@ -6,7 +6,9 @@ import 'dart:convert' as convert;
 
 import '../../../../helpers/constants.dart';
 import '../../../../models/failure.dart';
-import '../models/login_response/login_response.dart';
+import '../../../../models/apis_related/base_service.dart';
+import '../models/login_data.dart';
+import '../models/login_response.dart';
 import 'login_service.dart';
 
 class LoginServiceImpl implements LoginService {
@@ -30,11 +32,4 @@ class LoginServiceImpl implements LoginService {
       return left(BaseService.handleException(ex));
     }
   }
-}
-
-class LoginCredintials {
-  final String email;
-  final String password;
-  // TODO: do some thing
-  LoginCredintials({required this.email, required this.password});
 }

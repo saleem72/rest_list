@@ -34,6 +34,10 @@ class Safe {
     return _locale(languageCode);
   }
 
+  String getLanguageCode() {
+    return _storage.getString(SafeKeys.languageCode) ?? SafeKeys.english;
+  }
+
   Locale getLocal() {
     final languageCode =
         _storage.getString(SafeKeys.languageCode) ?? SafeKeys.english;

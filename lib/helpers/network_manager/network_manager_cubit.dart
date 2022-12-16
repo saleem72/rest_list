@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:connectivity/connectivity.dart';
 import 'package:equatable/equatable.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -39,8 +38,7 @@ class NetworkManagerCubit extends Cubit<NetworkManagerState> {
     // Platform messages may fail, so we use a try/catch PlatformException.
     try {
       result = await _connectivity.checkConnectivity();
-    } on PlatformException catch (e) {
-      print(e.toString());
+    } on PlatformException {
       _status = const NetworkManagerState(
           isConnected: false, type: ConnectionType.offline);
       emit(_status);
@@ -58,19 +56,16 @@ class NetworkManagerCubit extends Cubit<NetworkManagerState> {
       case ConnectivityResult.wifi:
         _status = const NetworkManagerState(
             isConnected: true, type: ConnectionType.wifi);
-        print(_status);
         emit(_status);
         break;
       case ConnectivityResult.mobile:
         _status = const NetworkManagerState(
             isConnected: true, type: ConnectionType.mobile);
-        print(_status);
         emit(_status);
         break;
       default:
         _status = const NetworkManagerState(
             isConnected: false, type: ConnectionType.offline);
-        print(_status);
         emit(_status);
         break;
     }

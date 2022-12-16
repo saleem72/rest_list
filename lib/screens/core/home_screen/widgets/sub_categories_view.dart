@@ -5,7 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shimmer/shimmer.dart';
 
 import '../../../../helpers/styling/styling.dart';
-import '../../../auth/login_screen/models/login_response/categories_response.dart';
+import '../../../../models/product_category.dart';
 import '../dashboard_bloc/dashboard_bloc.dart';
 import 'categories_add_button.dart';
 

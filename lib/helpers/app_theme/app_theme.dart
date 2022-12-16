@@ -98,8 +98,8 @@ extension _Material on Color {
         _toSwatch(),
       );
 
-  MaterialAccentColor toMaterialAccentColor() => MaterialAccentColor(
-        value,
-        _toSwatch(),
-      );
+  // MaterialAccentColor toMaterialAccentColor() => MaterialAccentColor(
+  //       value,
+  //       _toSwatch(),
+  //     );
 }

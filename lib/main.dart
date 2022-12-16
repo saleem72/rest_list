@@ -6,7 +6,12 @@ import 'dependancy_injection.dart' as di;
 import 'helpers/app_theme/app_theme.dart';
 import 'helpers/app_theme/app_theme_cubit/app_theme_cubit.dart';
 import 'helpers/auth_manager/auth_cubit/auth_cubit.dart';
+import 'helpers/constants.dart';
 import 'helpers/localization/locale_cubit/locale_cubit.dart';
+import 'screens/core/home_screen/dashboard_bloc/dashboard_bloc.dart';
+import 'screens/core/home_screen/repository/dashboard_repository.dart';
+import 'screens/core/home_screen/service/dashboard_service_impl.dart';
+import 'screens/core/home_screen/service/dashboard_service_mock.dart';
 import 'screens/landing_screen/landing_screen.dart';
 
 void main() async {
@@ -25,6 +30,15 @@ class MyApp extends StatelessWidget {
         BlocProvider(create: (context) => LocaleCubit(safe: di.locator())),
         BlocProvider(create: (context) => AppThemeCubit(safe: di.locator())),
         BlocProvider(create: (context) => AuthCubit(safe: di.locator())),
+        BlocProvider(
+          create: (context) => DashboardBloc(
+            repository: DashboardRepositoryImpl(
+              service: Constants.isDebuging
+                  ? DashboardServiceMock()
+                  : DashboardServiceImpl(),
+            ),
+          ),
+        ),
       ],
       child: const RestListApp(),
     );

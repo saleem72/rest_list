@@ -9,3 +9,4 @@ export 'widgets/product_details.dart';
 export 'widgets/add_new_product_view.dart';
 export 'widgets/menu_details_section_view.dart';
 export 'widgets/home_failure_view.dart';
+export 'widgets/product_card.dart';

@@ -2,8 +2,6 @@
 
 import 'package:flutter/material.dart';
 
-import '../helpers/styling/styling.dart';
-
 class AppLogo extends StatelessWidget {
   const AppLogo({
     Key? key,
