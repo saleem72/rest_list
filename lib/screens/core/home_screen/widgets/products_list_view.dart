@@ -6,7 +6,7 @@ import 'package:shimmer/shimmer.dart';
 
 import '../../../../helpers/styling/styling.dart';
 import '../../../../models/product.dart';
-import '../dashboard_bloc/dashboard_bloc.dart';
+import '../../../../helpers/dashboard_bloc/dashboard_bloc.dart';
 import 'product_card.dart';
 
 class ProductsListView extends StatelessWidget {

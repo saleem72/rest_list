@@ -2,26 +2,28 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_svg/svg.dart';
+import 'package:rest_list/models/settings_item.dart';
 
 import '../../../helpers/auth_manager/auth_cubit/auth_cubit.dart';
-import '../../../helpers/constants.dart';
+import '../../../helpers/dashboard_bloc/dashboard_bloc.dart';
+import '../../../helpers/settings_cubit/settings_cubit.dart';
 import '../../../helpers/styling/styling.dart';
 import '../../../widgets/main_widgets.dart';
 import '../../../models/restaurant/restaurant.dart';
-import 'dashboard_bloc/dashboard_bloc.dart';
 import 'home_widgets.dart';
 import 'pages.dart';
 import 'pages/home_settings_page.dart';
-import 'repository/dashboard_repository.dart';
-import 'service/dashboard_service_impl.dart';
-import 'service/dashboard_service_mock.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return const HomeScreenContent();
+    return BlocProvider(
+      create: (context) => SettingsCubit(),
+      child: const HomeScreenContent(),
+    );
 
     //  child: const HomeScreenContent(),
   }
@@ -98,11 +100,17 @@ class _HomeScreenContentState extends State<HomeScreenContent> {
               ),
               IconButton(
                   onPressed: () => setState(() {
+                        context
+                            .read<SettingsCubit>()
+                            .setActiveItem(SettingsItem.offers);
                         _selectedPage = 1;
                       }),
                   icon: Image.asset(Assets.offers)),
               IconButton(
                   onPressed: () => setState(() {
+                        context
+                            .read<SettingsCubit>()
+                            .setActiveItem(SettingsItem.account);
                         _selectedPage = 1;
                       }),
                   icon: Image.asset(Assets.settings)),
@@ -128,9 +136,46 @@ class _HomeScreenContentState extends State<HomeScreenContent> {
   }
 
   _showQR(BuildContext context) {
-    final user = context.read<DashboardBloc>().state.user;
-    if (user != null) {
-      debugPrint(user.fullName);
+    final restaurant = context.read<DashboardBloc>().state.activeRestaurant;
+    if (restaurant != null && restaurant.qrUrl.isNotEmpty) {
+      // print(restaurant.qrUrl);
+      // print(restaurant.qr);
+      // print(restaurant.qrCode);
+
+      final alert = AlertDialog(
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            SizedBox(
+              width: 200,
+              height: 200,
+              child: SvgPicture.network(
+                restaurant.qr,
+                placeholderBuilder: (BuildContext context) => Container(
+                  padding: const EdgeInsets.all(30.0),
+                  child: const CircularProgressIndicator(),
+                ),
+              ),
+            ),
+          ],
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.of(context).pop(),
+            style: TextButton.styleFrom(
+              backgroundColor: Theme.of(context).primaryColor,
+              foregroundColor: Colors.white,
+            ),
+            child: const Text('ok'),
+          ),
+        ],
+      );
+      showDialog(
+        context: context,
+        builder: (context) {
+          return alert;
+        },
+      );
     }
   }
 }

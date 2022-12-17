@@ -50,6 +50,7 @@ dependencies:
   formz: ^0.4.1
   desktop_window: ^0.4.0
   shimmer: ^2.0.0
+  flutter_svg: ^1.1.6
 
 dev_dependencies:
   flutter_test:

@@ -3,9 +3,9 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:formz/formz.dart';
-import 'package:rest_list/screens/core/home_screen/dashboard_bloc/dashboard_bloc.dart';
 
 import '../../../../helpers/auth_manager/auth_cubit/auth_cubit.dart';
+import '../../../../helpers/dashboard_bloc/dashboard_bloc.dart';
 import '../../../../models/failure.dart';
 import '../../../../models/models.dart';
 import '../service/login_service.dart';

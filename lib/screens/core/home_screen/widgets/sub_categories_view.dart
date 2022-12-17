@@ -6,7 +6,7 @@ import 'package:shimmer/shimmer.dart';
 
 import '../../../../helpers/styling/styling.dart';
 import '../../../../models/product_category.dart';
-import '../dashboard_bloc/dashboard_bloc.dart';
+import '../../../../helpers/dashboard_bloc/dashboard_bloc.dart';
 import 'categories_add_button.dart';
 
 class SubCategoriesView extends StatelessWidget {

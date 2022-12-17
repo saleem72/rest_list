@@ -3,7 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../dashboard_bloc/dashboard_bloc.dart';
+import '../../../../helpers/dashboard_bloc/dashboard_bloc.dart';
 import 'add_new_product_view.dart';
 import 'product_details.dart';
 

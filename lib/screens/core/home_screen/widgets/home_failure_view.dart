@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rest_list/models/failure.dart';
 
-import '../dashboard_bloc/dashboard_bloc.dart';
+import '../../../../helpers/dashboard_bloc/dashboard_bloc.dart';
 
 class HomeFailureView extends StatelessWidget {
   const HomeFailureView({super.key});

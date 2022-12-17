@@ -6,7 +6,7 @@ import 'package:intl/intl.dart';
 
 import '../../../../helpers/styling/styling.dart';
 import '../../../../models/product.dart';
-import '../dashboard_bloc/dashboard_bloc.dart';
+import '../../../../helpers/dashboard_bloc/dashboard_bloc.dart';
 
 class ProductCard extends StatelessWidget {
   const ProductCard({super.key, required this.product, required this.isActive});

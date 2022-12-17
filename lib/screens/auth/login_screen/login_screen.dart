@@ -4,10 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:formz/formz.dart';
 import 'package:rest_list/helpers/localization/language_constants.dart';
-import 'package:rest_list/screens/core/home_screen/dashboard_bloc/dashboard_bloc.dart';
 
 import '../../../helpers/auth_manager/auth_cubit/auth_cubit.dart';
 import '../../../helpers/constants.dart';
+import '../../../helpers/dashboard_bloc/dashboard_bloc.dart';
 import '../../../helpers/styling/styling.dart';
 import '../../../widgets/main_widgets.dart';
 import 'login_bloc/login_bloc.dart';
